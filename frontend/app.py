@@ -4,7 +4,7 @@ import requests
 
 app = Flask(__name__)
 
-backend_url = os.getenv('BACKEND', 'http://localhost:5000/')
+backend_url = os.getenv('BACKEND_URL', 'http://backend:5000')  # backend-ul va rula pe portul 5000 în containerul backend
 
 @app.route('/')
 def index():
@@ -21,27 +21,24 @@ def submit_form():
         price = request.form['price']
         quantity = request.form['quantity']
         
-        response = requests.post(f"{backend_url}submit_form", data={'product_name': product_name, 'price': price, 'quantity': quantity})
-               
-        if response.status_code == 200:
-            message = "Product added successfully!"
-        else:
-            message = "Failed to add product."
+        response = requests.post(f"{backend_url}/submit_form", data={
+            'product_name': product_name,
+            'price': price,
+            'quantity': quantity
+        })
 
-        return render_template('insert_form.html', message=message)
+        return render_template('insert_form.html', message="Data inserted successfully!")
 
 @app.route('/show_data')
 def show_data():
-    
-    response = requests.get(f"{backend_url}show_data")
-    
+    response = requests.get(f"{backend_url}/show_data")
     if response.status_code == 200:
-        data = response.json() 
+        data = response.json()
         return render_template('show_data.html', data=data)
     else:
         return "Failed to fetch data"
 
 if __name__ == '__main__':
     host = os.getenv('HOST', '0.0.0.0')
-    port = int(os.getenv('PORT', 5000))  
+    port = int(os.getenv('PORT', 5001))
     app.run(host=host, port=port)
