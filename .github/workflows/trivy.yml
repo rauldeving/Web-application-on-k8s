@@ -1,0 +1,48 @@
+name: Trivy Scan Frontend & Backend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  trivy_scan:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [frontend, backend]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build ${{ matrix.service }} Docker Image
+        run: docker build -t ${{ matrix.service }}:latest ./${{ matrix.service }}
+
+      - name: Run Trivy Scan on Frontend
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ matrix.service }}:latest'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+        continue-on-error: true 
+
+      - name: Run Trivy Scan on Backend
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ matrix.service}}:latest'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+        continue-on-error: true 
+
+      - name: Save Trivy Report for ${{ matrix.service}}
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-report-${{ matrix.service}}
+          path: trivy-report.json
