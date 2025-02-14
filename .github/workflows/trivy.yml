@@ -42,7 +42,8 @@ jobs:
 
       - name: Save Trivy Report for ${{ matrix.service}}
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: trivy-report-${{ matrix.service}}
           path: trivy-report.json
+          compression-level: 0
