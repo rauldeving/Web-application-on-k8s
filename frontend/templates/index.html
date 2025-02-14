@@ -4,29 +4,47 @@
     <title>Python App</title>
     <style>
 body {
-background-color: #BCB88A;
+    background-color: #BCB88A;
+    text-align: center;
 }
 .message {
     font-size: 24px;
     font-weight: bold;
     margin-top: 100px;
-    text-align: center;
+}
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
+button:hover {
+    background-color: #45a049;
+}
+
+.image-container {
+    text-align: center;
+    margin-top: 50px;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
     </style>
 </head>
 <body>
     <div class="message">
-        {% if name %}
-            Hello, {{ name }}!
-        {% else %}
-            Welcome to the Flask App!
-        {% endif %}
+        <h1>Welcome to the Flask App!</h1>
     </div>
-    <a href = "/insert_form"><button class="button-30" role="button">Insert data</button></a>
-    <a href = "/show_data"><button class="button-30" role="button">Show data</button></a>
-    
-   
-
+    <div class="image-container">
+        <img src="https://via.placeholder.com/800x400.png?text=Welcome+to+Our+App" alt="Welcome Image">
+    </div>
+    <a href="/insert_form"><button class="button-30" role="button">Insert data</button></a>
+    <a href="/show_data"><button class="button-30" role="button">Show data</button></a>
 </body>
 </html>
