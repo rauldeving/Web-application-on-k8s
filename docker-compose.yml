@@ -1,3 +1,5 @@
+#This docker-compose was created for testing purposes.
+
 version: '1'
 
 services:
