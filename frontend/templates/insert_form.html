@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts</title>
+    <style>
+        body {
+            background-color: #BCB88A;
+        }
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 100px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <form action="/submit_form" method="POST">
+        <label for="product_name">Product name:</label>
+        <input type="text" id="product_name" name="product_name"><br><br>
+
+        <label for="price">Price:</label>
+        <input type="text" id="price" name="price"><br><br>
+
+        <label for="quantity">Quantity</label>
+        <input type="text" id="quantity" name="quantity"><br><br>
+        
+        <input type="submit" value="Submit">
+      </form>
+    
+      <a href = "/"><button class="button-30" role="button">HOME</button></a>
+        
+</body>
+</html>
+
+

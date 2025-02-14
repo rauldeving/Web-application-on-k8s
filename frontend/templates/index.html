@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python App</title>
+    <style>
+body {
+background-color: #BCB88A;
+}
+.message {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 100px;
+    text-align: center;
+}
+
+    </style>
+</head>
+<body>
+    <div class="message">
+        {% if name %}
+            Hello, {{ name }}!
+        {% else %}
+            Welcome to the Flask App!
+        {% endif %}
+    </div>
+    <a href = "/insert_form"><button class="button-30" role="button">Insert data</button></a>
+    <a href = "/show_data"><button class="button-30" role="button">Show data</button></a>
+    
+   
+
+</body>
+</html>
