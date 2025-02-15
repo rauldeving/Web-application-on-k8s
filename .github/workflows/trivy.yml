@@ -11,39 +11,47 @@ on:
 jobs:
   trivy_scan:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: [frontend, backend]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build ${{ matrix.service }} Docker Image
-        run: docker build -t ${{ matrix.service }}:latest ./${{ matrix.service }}
+      - name: Build Frontend Docker Image
+        run: docker build -t my-frontend:latest ./frontend
 
       - name: Run Trivy Scan on Frontend
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ matrix.service }}:latest'
+          image-ref: 'my-frontend:latest'
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
-        continue-on-error: true 
+        continue-on-error: true
+
+      - name: Save Trivy Report for Frontend
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-report-frontend
+          path: trivy-report.json
+          compression-level: 0
+
+      - name: Build Backend Docker Image
+        run: docker build -t my-backend:latest ./backend
 
       - name: Run Trivy Scan on Backend
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '${{ matrix.service}}:latest'
+          image-ref: 'my-backend:latest'
           format: 'table'
           exit-code: '1'
           severity: 'CRITICAL,HIGH'
-        continue-on-error: true 
+        continue-on-error: true
 
-      - name: Save Trivy Report for ${{ matrix.service}}
+      - name: Save Trivy Report for Backend
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: trivy-report-${{ matrix.service}}
+          name: trivy-report-backend
           path: trivy-report.json
           compression-level: 0
